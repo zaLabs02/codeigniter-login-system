@@ -18,6 +18,15 @@ class Welcome extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+
+	public function __construct(){
+		parent::__construct();
+		$this->load->library('javascript');
+		$this->load->library('form_validation');
+		$this->load->library('email');
+		$this->load->library('session');
+	  }
+
 	public function index()
 	{
 		
@@ -123,4 +132,47 @@ class Welcome extends CI_Controller {
 		$this->db->delete('pendidikan');
 		redirect('/');
 	}
+
+	public function login(){
+		$data['user'] = $this->db->get('biodata')->result();
+		// echo json_encode($data);
+		$this->load->view('header',$data);
+		$this->load->view('login');
+		$this->load->view('footer');
+	}
+/*
+
+Penjelasan kode ada di login auth
+https://github.com/ilcupnjatim/simple-crud/blob/master/proseslogin.php#L1
+
+*/
+	public function auth(){
+		$username=htmlspecialchars($this->input->post('username',TRUE),ENT_QUOTES);
+		$password=md5(htmlspecialchars($this->input->post('password',TRUE),ENT_QUOTES));
+		$cek=$this->db->query("SELECT * FROM user WHERE username='$username' LIMIT 1");
+		$ambildata = $cek->row();
+		$biodata = $this->db->get('biodata')->row();
+		// $cek_dosen=$this->login_model->auth_dosen($username,$password);
+		if ($cek->num_rows() == 0 || $cek->num_rows() > 1) {
+			echo '<script language="javascript">alert("Tidak bisa Login !"); document.location="login";</script>';
+		} else {
+			# code...
+			if (password_verify($password, $ambildata->password)) {
+				$this->session->set_userdata('cek_masuk',TRUE);
+				$this->session->set_userdata('session_username',$ambildata->username);
+				$this->session->set_userdata('session_nama',$ambildata->username);
+				echo '<script language="javascript">alert("Sukses Login !");</script>';
+				echo "Sukses login\nSelanjutnya kalian kembangin sendiri ya.\nSemangattttttt";
+			} else {
+				echo '<script language="javascript">alert("Tidak bisa Login !"); document.location="login";</script>';
+			}
+		}
+	}
+
+	/*
+
+Penjelasan kode ada di login auth
+https://github.com/ilcupnjatim/simple-crud/blob/master/proseslogin.php#L1
+
+*/
 }

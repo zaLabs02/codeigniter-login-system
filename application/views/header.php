@@ -35,5 +35,7 @@
   <h5 class="my-0 mr-md-auto font-weight-normal"><a href="/"><img src="<?php echo base_url(); ?>assets/img/uts.png"></a>
     
   </h5><?php foreach($user as $u){ ?>
-  <button class="btn btn-outline-primary" href="#"><?php echo $u->nama ?></button>
-</div>  <?php } ?>
+  <button class="btn btn-outline-primary" href="#"><?php echo $u->nama ?></button><?php } ?>
+  <!-- <button class="btn btn-outline-success" href="<?php echo base_url();?>/login">Login</button> -->
+  <input type="button" class="btn btn-primary"onclick="location.href='<?php echo base_url(); ?>index.php/welcome/login'" value="Login" />
+</div>  
