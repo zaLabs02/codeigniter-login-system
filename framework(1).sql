@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 26, 2020 at 03:07 AM
+-- Generation Time: Apr 04, 2020 at 05:48 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -88,6 +88,26 @@ INSERT INTO `pendidikan` (`id_pendidikan`, `id_jenjang`, `nama_sekolah`, `thn_lu
 (2, 2, 'SMPN 14 Surabaya', 2014),
 (3, 3, 'SMK Antartika Surabaya', 2017);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `id_user` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(80) NOT NULL,
+  `level` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id_user`, `username`, `password`, `level`) VALUES
+(1, 'afrizal', '$2y$10$OoauLloRaqed2xWvnBM36uBSvzgcR8gweZ.2EsA./SqxsZjrukbNy', 'admin');
+
 --
 -- Indexes for dumped tables
 --
@@ -112,6 +132,12 @@ ALTER TABLE `pendidikan`
   ADD KEY `id_jenjang` (`id_jenjang`);
 
 --
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id_user`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -125,7 +151,13 @@ ALTER TABLE `jenjang_pendidikan`
 -- AUTO_INCREMENT for table `pendidikan`
 --
 ALTER TABLE `pendidikan`
-  MODIFY `id_pendidikan` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_pendidikan` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
