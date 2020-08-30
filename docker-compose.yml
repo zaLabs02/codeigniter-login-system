@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  php-fpm:
+    container_name: framework_php_fpm
+    build:
+      context: ./docker/php-fpm
+    volumes:
+      - .:/var/www/html
+
+  nginx:
+    container_name: framework_nginx
+    build:
+      context: ./docker/nginx
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/sites/:/etc/nginx/sites-available
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - php-fpm
+
+  database:
+    container_name: framework_database
+    build:
+      context: ./docker/database
+    environment:
+      - MYSQL_DATABASE=framework
+      - MYSQL_USER=afrizal
+      - MYSQL_PASSWORD=afrizal
+      - MYSQL_ROOT_PASSWORD=afrizal
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/database/data.sql:/docker-entrypoint-initdb.d/data.sql
+  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: framework_pma
+    links:
+      - database
+    environment:
+      PMA_HOST: database
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8183:80
